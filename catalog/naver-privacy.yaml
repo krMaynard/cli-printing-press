@@ -1,0 +1,52 @@
+name: naver-privacy
+display_name: Naver Privacy
+description: Naver Privacy Center content API — the transparency-report statistics series (government data requests since 2012), section intros, and privacy notices, as unauthenticated JSON.
+category: other
+spec_url: https://raw.githubusercontent.com/krMaynard/transparency-api-cli/main/catalog/specs/naver-privacy.yaml
+spec_format: yaml
+openapi_version: "3.0"
+base_url: https://privacy.naver.com
+tier: community
+spec_source: sniffed
+verified_date: "2026-07-02"
+homepage: https://privacy.naver.com
+auth_required: false
+client_pattern: rest
+http_transport: standard
+regions:
+  - KR
+api_language: ko
+notes: |
+  Platform transparency-report blueprint: the Naver Privacy Center is a
+  Next.js app that prefetches every page through an unauthenticated CMS API,
+  discovered from the app's react-query hydration state (queryKey
+  ["page","TRANSPARENCY_REPORT_STATISTICS"] resolves to
+  `GET /api/pages/{pageCode}`).
+
+  Surface:
+    - `GET /api/pages/{pageCode}` — CMS page content plus structured
+      `specificAreaJson`. For pageCode TRANSPARENCY_REPORT_STATISTICS the
+      payload's `statistics` array is the full transparency series: one
+      entry per half-year since 2012, with request/processing/provided/
+      average counts and compliance rates for search & seizure warrants,
+      communication user information (구 통신자료), communication-restricting
+      measures, and communication confirmation data. NAVER_REPORT lists the
+      downloadable NAVER Privacy Report / whitepaper library.
+    - `GET /api/pages/intro/{introCode}` — section intro blurbs (REPORT,
+      ACTIVITY).
+    - `GET /api/notices` (0-indexed `page` + `size`) and
+      `GET /api/notices/{noticeId}` — Privacy Center notices.
+
+  Quirks a printed CLI must handle:
+    - All counts in the statistics entries are strings; "-" marks categories
+      Naver no longer complies with (no communication user information
+      provided since October 2012).
+    - Unknown page/intro codes return HTTP 400 with
+      {"errorCode":"BAD_REQUEST"} — surface the errorMessage.
+    - Content is Korean-only; page codes are CMS-managed strings, not a
+      closed enum.
+
+  Works with plain net/http (verified with curl, no browser headers needed).
+  Naver was the first South Korean company to publish a transparency report
+  (January 2015). Companion entry: kakao-transparency (Kakao's equivalent
+  statistics API).

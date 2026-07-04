@@ -32,7 +32,9 @@ monitoring:
   sentry               Error tracking and performance monitoring - projects, issues, events, releases
 
 other:
+  kakao-transparency   Kakao's semiannual transparency-report statistics — South Korean government requests for user data (warrants, communication data, restriction measures) for Kakao and Daum services since 2012.
   kayak                Flight, hotel, and car rental aggregator. No public API and no maintained community wrappers — reached by scraping embedded JSON from server-rendered pages.
+  naver-privacy        Naver Privacy Center content API — the transparency-report statistics series (government data requests since 2012), section intros, and privacy notices, as unauthenticated JSON.
   transparency-report-api Query public transparency reports — EU DSA VLOP content-moderation statistics and Google government content-removal requests — with a structured no-SQL query model over an async 202 + poll job API.
 
 payments:

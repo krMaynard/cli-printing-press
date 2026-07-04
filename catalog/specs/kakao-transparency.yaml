@@ -202,17 +202,26 @@ components:
             Number of government requests received. Language-dependent typing:
             a string ("517") in the Korean payload, a bare number (517) in the
             English (Accept-Language: en) payload — clients must accept both.
+          oneOf:
+            - type: string
+            - type: integer
           example: "517"
         numberOfProcesses:
           description: >-
             Number of requests processed (complied with). Same
             language-dependent string/number typing as numberOfRequests; -1
             renders as "N/A" on the site.
+          oneOf:
+            - type: string
+            - type: integer
         numberOfAccounts:
           description: >-
             Number of accounts/IDs affected. Same language-dependent
             string/number typing as numberOfRequests; -1 renders as "N/A" on
             the site.
+          oneOf:
+            - type: string
+            - type: integer
         content:
           type: string
           description: Localized narrative attached to the row (usually only on the first row).

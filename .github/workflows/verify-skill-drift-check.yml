@@ -61,7 +61,7 @@ jobs:
           EOF
 
             issue_title="verify-skill drift detected with printing-press-library"
-            existing_issue="$(gh issue list --state open --search "$issue_title in:title" --json number --jq '.[0].number // empty')"
+            existing_issue="$(gh issue list --state open --search "$issue_title in:title" --json number --jq '.[0].number // empty' 2>/dev/null || true)"
             if [[ -z "$existing_issue" ]]; then
               issue_body="${RUNNER_TEMP:-/tmp}/verify-skill-drift-issue.md"
               cat > "$issue_body" <<EOF
@@ -78,7 +78,12 @@ jobs:
           \`\`\`
           EOF
 
-              gh issue create --title "$issue_title" --body-file "$issue_body"
+              if issue_url="$(gh issue create --title "$issue_title" --body-file "$issue_body" 2>/dev/null)"; then
+                echo "Opened drift issue: $issue_url" >> "$GITHUB_STEP_SUMMARY"
+              else
+                echo "Issue creation unavailable; the drift failure remains the source of truth." >> "$GITHUB_STEP_SUMMARY"
+                echo "::warning::Could not open a drift issue (issues may be disabled in this fork)."
+              fi
             else
               echo "Existing open drift issue: #$existing_issue" >> "$GITHUB_STEP_SUMMARY"
             fi

@@ -98,6 +98,7 @@ func TestVerifySkillDriftWorkflowGuardsLibraryCopy(t *testing.T) {
 		"cmp -s",
 		"gh issue list",
 		"gh issue create",
+		"issues may be disabled in this fork",
 		"exit 1",
 		"cp scripts/verify-skill/verify_skill.py ../printing-press-library/.github/scripts/verify-skill/verify_skill.py",
 	}
